@@ -1,0 +1,38 @@
+train_dataloader: 
+  dataset: 
+    return_masks: False
+    transforms:
+      ops:
+        # 光照/颜色扰动（小目标常出现在复杂光照下）
+        - {type: RandomPhotometricDistort, p: 0.5}
+        # 随机缩小画面再填充，提升小目标比例鲁棒性
+        - {type: RandomZoomOut, fill: 0}
+        # 对小目标不友好，适当降低触发概率，避免过多裁剪掉小目标
+        - {type: RandomIoUCrop, p: 0.2}
+        - {type: SanitizeBoundingBox, min_size: 1}
+        - {type: RandomHorizontalFlip}
+        # 训练分辨率适度提升，利于小目标（若显存吃紧可改为 768 或 832）
+        - {type: Resize, size: [896, 896]}
+        - {type: ToImageTensor}
+        - {type: ConvertDtype}
+        - {type: SanitizeBoundingBox, min_size: 1}
+        - {type: ConvertBox, out_fmt: 'cxcywh', normalize: True}
+  shuffle: True
+  # 更大输入分辨率下建议减小 batch_size
+  batch_size: 4
+  num_workers: 4
+  collate_fn: default_collate_fn
+
+val_dataloader:
+  dataset: 
+    transforms:
+      ops: 
+        - {type: Resize, size: [896, 896]}
+        - {type: ToImageTensor}
+        - {type: ConvertDtype}
+  shuffle: False
+  batch_size: 4
+  num_workers: 4
+  collate_fn: default_collate_fn
+
+

@@ -1,0 +1,16 @@
+__include__: [
+  # '../dataset/visdrone2019_detection.yml',
+ # '../dataset/dior_detection.yml',
+  '../dataset/aitod_detection.yml',
+  '../runtime.yml',
+  './include/dataloader.yml',
+  './include/optimizer.yml',
+  # './include/rtdetr_r50vd.yml',  
+  './include/rtdetr_r50vd.yml',
+]
+
+# 训练输出目录（可自行修改）
+output_dir: output/ours_aitod
+
+
+

@@ -1,0 +1,14 @@
+__include__: [
+  '../dataset/visdrone2019_detection.yml',
+  '../runtime.yml',
+  './include/dataloader.yml',
+  './include/optimizer.yml',
+  # './include/rtdetr_r50vd.yml',  
+  './include/rtdetr_r50vd.yml',
+]
+
+
+output_dir: output/xxxx
+
+
+
